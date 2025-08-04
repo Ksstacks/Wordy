@@ -43,6 +43,7 @@ def extract_base_directory(domian):
 
 def generate_manual_wordlist(mode, base, depth):
     wordlist = set()
+    base = base.replace("https://", "").replace("http://", "").strip('/')
     if mode == "subdomain":
         for _ in range(depth):
             prefix = random.choice(COMMON_PREFIXES)
