@@ -116,7 +116,7 @@ def generate_smart_wordlist(domian):
 def main():
     parser = argparse.ArgumentParser(description="Fuzzing Wordlist Generator (Manual & Smart AI-style)")
     parser.add_argument("-m", "--mode", choices=["subdomain", "directory", "domain"], help="Type of manual wordlist generation")
-    parser.add_argument("-b", "--base", help="Base name for generation (e.g. 'example')")
+    parser.add_argument("-b", "--base", help="Base name or url for generation (e.g. 'example')")
     parser.add_argument("-d", "--depth", type=int, default=100, help="Number of words to generate in manual mode")
     parser.add_argument("-o", "--output", required=True, help="Output wordlist file name")
     parser.add_argument("-s", "--smart", help="Smart wordlist generation")
