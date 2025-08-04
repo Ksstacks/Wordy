@@ -1,16 +1,41 @@
 import argparse
 import random
+import string
 from urllib.parse import urlparse
 
-COMMON_PREFIXES = ["dev", "test", "stage", "prod", "api", "app", "web", "internal", "beta", "admin"]
-COMMON_SUFFIXES = ["dev", "test", "stage", "old", "v1", "v2", "secure", "new", "01", "backup"]
-COMMON_SUBDOMAINS = ["www", "mail", "ftp", "api", "dev", "test", "staging", "admin", "internal", "portal", "vpn", "cpanel", "webmail", "blog", "m"]
+COMMON_PREFIXES = ["www","localhost", "ftp", "webmail", "smtp", "webdisk", "pop", "cpanel", "whm", "ns1", "ns2", "mail", "autodiscover",
+"autoconfig", "ns", "test", "m", "blog", "dev", "www2", "ns3", "pop3", "forum", "admin", "mail2", "vpn", "mx" ,"imap",
+"old", "new", "mobile", "mysql", "beta", "support", "cp", "secure", "shop", "demo", "dns2", "ns4", "dns1", "static", "lists",
+"web", "www1", "img", "news", "portal", "server", "wiki", "api", "media", "images", "www.blog", "backup", "dns", "sql", 
+"intranet", "www.forum", "www.test", "stats", "host","video", "mail1", "mx1", "www3", "staging", "www.m", "sip", 
+"ads", "ipv4", "remote", "email", "my", "wap", "svn", "store", "cms", "download", "proxy",
+"www.dev, ""dev", "test", "stage", "prod", "api", "app", "web", "internal", "beta", "admin"
+"www","localhost", "ftp", "webmail", "smtp", "webdisk", "pop", "cpanel", "whm", "ns1", "ns2", "mail", "autodiscover",
+"autoconfig", "ns", "test", "m", "blog", "dev", "www2", "ns3", "pop3", "forum", "admin", "mail2", "vpn", "mx" ,"imap",
+"old", "new", "mobile", "mysql", "beta", "support", "cp", "secure", "shop", "demo", "dns2", "ns4", "dns1", "static", "lists",
+"web", "www1", "img", "news", "portal", "server", "wiki", "api", "media", "images", "www.blog", "backup", "dns", "sql", 
+"intranet", "www.forum", "www.test", "stats", "host","video", "mail1", "mx1", "www3", "staging", "www.m", "sip", 
+"ads", "ipv4", "remote", "email", "my", "wap", "svn", "store", "cms", "download"]
+COMMON_SUFFIXES = ["dev", "test", "stage", "old", "v1", "v2", "secure", "new", "01", "backup"
+"www","localhost", "ftp", "webmail", "smtp", "webdisk", "pop", "cpanel", "whm", "ns1", "ns2", "mail", "autodiscover",
+"autoconfig", "ns", "test", "m", "blog", "dev", "www2", "ns3", "pop3", "forum", "admin", "mail2", "vpn", "mx" ,"imap",
+"old", "new", "mobile", "mysql", "beta", "support", "cp", "secure", "shop", "demo", "dns2", "ns4", "dns1", "static", "lists",
+"web", "www1", "img", "news", "portal", "server", "wiki", "api", "media", "images", "www.blog", "backup", "dns", "sql", 
+"intranet", "www.forum", "www.test", "stats", "host","video", "mail1", "mx1", "www3", "staging", "www.m", "sip", 
+"ads", "ipv4", "remote", "email", "my", "wap", "svn", "store", "cms", "download"]
+COMMON_SUBDOMAINS = ["www", "mail", "ftp", "api", "dev", "test", "staging", "admin", "internal", "portal", "vpn", "cpanel", "webmail", "blog", "m"
+"www","localhost", "ftp", "webmail", "smtp", "webdisk", "pop", "cpanel", "whm", "ns1", "ns2", "mail", "autodiscover",
+"autoconfig", "ns", "test", "m", "blog", "dev", "www2", "ns3", "pop3", "forum", "admin", "mail2", "vpn", "mx" ,"imap",
+"old", "new", "mobile", "mysql", "beta", "support", "cp", "secure", "shop", "demo", "dns2", "ns4", "dns1", "static", "lists",
+"web", "www1", "img", "news", "portal", "server", "wiki", "api", "media", "images", "www.blog", "backup", "dns", "sql", 
+"intranet", "www.forum", "www.test", "stats", "host","video", "mail1", "mx1", "www3", "staging", "www.m", "sip", 
+"ads", "ipv4", "remote", "email", "my", "wap", "svn", "store", "cms", "download"]
 COMMON_TLDS = [".com", ".net", ".org", ".dev", ".app", ".xyz"]
 
-def extract_base_domain(domain):
-    domain = domain.lower().strip()
-    parsed = urlparse(domain)
-    hostname = parsed.hostname if parsed.hostname else domain
+def extract_base_directory(domian):
+    domian = domian.lower().strip()
+    parsed = urlparse(domian)
+    hostname = parsed.hostname if parsed.hostname else domian
     parts = hostname.split('.')
     if len(parts) >= 2:
         return parts[-2]  # example.com -> "example"
@@ -25,29 +50,49 @@ def generate_manual_wordlist(mode, base, depth):
             wordlist.add(f"{prefix}-{base}")
             wordlist.add(f"{base}-{suffix}")
             wordlist.add(f"{prefix}.{base}")
+            wordlist.add(f"{prefix}")
+            wordlist.add(f"{suffix}")
             wordlist.add(f"{prefix}{random.randint(1,99)}.{base}")
     elif mode == "domain":
         for _ in range(depth):
             prefix = random.choice(COMMON_PREFIXES)
             suffix = random.choice(COMMON_SUFFIXES)
-            wordlist.add(f"{base}{suffix}.com")
-            wordlist.add(f"{prefix}{base}.net")
-            wordlist.add(f"{base}-{suffix}.org")
-            wordlist.add(f"{prefix}-{base}-{suffix}.xyz")
+            sub = ramdom.choice(COMMON_SUBDOMAINS)
+            wordlist.add(f"{base}/{suffix}{COMMON_TLDS}")
+            wordlist.add(f"{prefix}/{base}{COMMON_TLDS}")
+            wordlist.add(f"{sub}.{base}/{suffix}{COMMON_TLDS}")
+            wordlist.add(f"{sub}.{base}-{suffix}{COMMON_TLDS}")
+            wordlist.add(f"{sub}.{base}{COMMON_TLDS}")
+            wordlist.add(f"{base}-{suffix}{COMMON_TLDS}")
+            wordlist.add(f"{prefix}-{base}/{suffix}{COMMON_TLDS}")
+            wordlist.add(f"{base}{random.randint(1,99)}/{suffix}")
+    elif mode == "directory":
+        for _ in range(depth):
+            prefix = random.choice(COMMON_PREFIXES)
+            suffix = random.choice(COMMON_SUFFIXES)
+            wordlist.add(f"{suffix}")
+            wordlist.add(f"{prefix}")
+            wordlist.add(f"{prefix}-{suffix}")
+            wordlist.add(f"{prefix}-{base}/{suffix}{COMMON_TLDS}")
+            wordlist.add(f"{suffix}{random.randint(1,99)}/{prefix}")
+            wordlist.add(f"{suffix}-{random.randint(1,99)}")
+            wordlist.add(f"{suffix}{random.randint(1,99)}")
+            wordlist.add(f"{prefix}-{random.randint(1,99)}")
+            wordlist.add(f"{prefix}{random.randint(1,99)}")
     else:
-        raise ValueError("Mode must be 'subdomain' or 'domain'")
+        raise ValueError("Mode must be 'subdomain', 'directory', or domain")
     return sorted(wordlist)
 
-def generate_smart_wordlist(domain):
+def generate_smart_wordlist(domian):
     wordlist = set()
-    base = extract_base_domain(domain)
-    full = domain.replace("https://", "").replace("http://", "").strip('/')
+    base = extract_base_directory(domain)
+    full = domian.replace("https://", "").replace("http://", "").strip('/')
 
-    # Subdomain patterns
+    # Subdirectory patterns
     for sub in COMMON_SUBDOMAINS:
         wordlist.add(f"{sub}.{full}")
 
-    # Variants of the domain itself
+    # Variants of the directory itself
     for suffix in COMMON_SUFFIXES:
         wordlist.add(f"{base}-{suffix}")
         wordlist.add(f"{base}{suffix}")
@@ -70,17 +115,17 @@ def generate_smart_wordlist(domain):
 
 def main():
     parser = argparse.ArgumentParser(description="Fuzzing Wordlist Generator (Manual & Smart AI-style)")
-    parser.add_argument("--mode", choices=["subdomain", "domain"], help="Type of manual wordlist generation")
-    parser.add_argument("--base", help="Base name for manual generation (e.g. 'example')")
-    parser.add_argument("--depth", type=int, default=100, help="Number of words to generate in manual mode")
-    parser.add_argument("--output", required=True, help="Output wordlist file name")
-    parser.add_argument("--target", help="Domain name to generate smart AI-style wordlist (e.g. example.com)")
+    parser.add_argument("-m", "--mode", choices=["subdomain", "directory", "domain"], help="Type of manual wordlist generation")
+    parser.add_argument("-b", "--base", help="Base name for generation (e.g. 'example')")
+    parser.add_argument("-d", "--depth", type=int, default=100, help="Number of words to generate in manual mode")
+    parser.add_argument("-o", "--output", required=True, help="Output wordlist file name")
+    parser.add_argument("-s", "--smart", help="Smart wordlist generation")
 
     args = parser.parse_args()
 
-    if args.target:
-        wordlist = generate_smart_wordlist(args.target)
-        print(f"[+] Smart wordlist generated from domain: {args.target}")
+    if args.smart:
+        wordlist = generate_smart_wordlist(args.base)
+        print(f"[+] Smart wordlist generated from directory: {args.base}")
     elif args.mode and args.base:
         wordlist = generate_manual_wordlist(args.mode, args.base, args.depth)
         print(f"[+] Manual wordlist generated in mode '{args.mode}' using base '{args.base}'")
