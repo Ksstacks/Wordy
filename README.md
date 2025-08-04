@@ -1,3 +1,3 @@
 # Wordy
 
-Wordlist generator for fuzzing domains and subdomains.
+Wordlist generator for fuzzing domains, subdomains, and directories.
